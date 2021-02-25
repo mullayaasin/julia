@@ -151,7 +151,7 @@ void classifyType(Classification& accum, jl_datatype_t *dt, uint64_t offset) con
         size_t i;
         for (i = 0; i < jl_datatype_nfields(dt); ++i) {
             jl_value_t *ty = jl_field_type(dt, i);
-            if (!jl_is_datatype(ty) || ((jl_datatype_t*)ty)->layout == NULL || jl_is_array_type(ty))
+            if (jl_field_isptr(dt, i))
                 ty = (jl_value_t*)jl_voidpointer_type;
             classifyType(accum, (jl_datatype_t*)ty, offset + jl_field_offset(dt, i));
         }
